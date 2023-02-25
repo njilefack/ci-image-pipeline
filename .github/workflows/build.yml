@@ -99,7 +99,7 @@ jobs:
       - name: Push docker image to registry/repo post scanning
         run: |
           docker push ${{ env.env_var }}:${{ steps.versioning.outputs.version }}
-          github_token: ${{ secrets.TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       ## Begin k8s suply chain security configuration by signing docker image digitally with COSIGN. Other tools
       ## can used as well such as Notary Server
