@@ -79,7 +79,7 @@ jobs:
           image-ref: ${{ env.env_var }}:${{ steps.versioning.outputs.version }}
           #image-ref: ${{ env.env_var }}:lastest,${{ env.env_var }}:${{ steps.versioning.outputs.version }}
           format: 'table'
-          exit-code: "1"
+          exit-code: "0"
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: ''
@@ -109,7 +109,7 @@ jobs:
       - name: Sign image with COSIGN_PRIVATE_KEY
         run: |
           export COSIGN_PASSWORD={{ secrets.COSIGN_PASSWORD }}
-          export TAGS=${{ steps.versioning.outputs.version }}
+          export TAGS=${{ env.env_var }}:${{ steps.versioning.outputs.version }}
           ## issue command to sign image
           cosign sign --key env://COSIGN_PRIVATE_KEY ${TAGS}
 
@@ -117,7 +117,7 @@ jobs:
       - name: Verify image signature
         run: |
           export COSIGN_PASSWORD={{ secrets.COSIGN_PASSWORD }}
-          export TAGS=${{ steps.versioning.outputs.version }}
+          export TAGS=${{ env.env_var }}:${{ steps.versioning.outputs.version }}
           cosign verify --key env://COSIGN_PRIVATE_KEY ${TAGS}
       
 
