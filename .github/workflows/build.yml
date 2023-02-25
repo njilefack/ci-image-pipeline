@@ -98,7 +98,7 @@ jobs:
       ## Command to push docker image to registry/repo
       - name: Push docker image to registry/repo post scanning
         run: |
-          docker push ${{ env.env_var }}:${{ steps.versioning.outputs.version }}
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.env_var }}:${{ steps.versioning.outputs.version }}
     
       ## create a release in github
       - name: Create github release
@@ -119,7 +119,7 @@ jobs:
       - name: Sign image with COSIGN_PRIVATE_KEY
         run: |
           export COSIGN_PASSWORD={{ secrets.COSIGN_PASSWORD }}
-          export TAGS=${{ env.env_var }}:${{ steps.versioning.outputs.version }}
+          export TAGS=${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.env_var }}:${{ steps.versioning.outputs.version }}
           ## issue command to sign image
           cosign sign --key env://COSIGN_PRIVATE_KEY ${TAGS}
 
@@ -127,7 +127,7 @@ jobs:
       - name: Verify image signature
         run: |
           export COSIGN_PASSWORD={{ secrets.COSIGN_PASSWORD }}
-          export TAGS=${{ env.env_var }}:${{ steps.versioning.outputs.version }}
+          export TAGS=${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.env_var }}:${{ steps.versioning.outputs.version }}
           cosign verify --key env://COSIGN_PRIVATE_KEY ${TAGS}
       
 
