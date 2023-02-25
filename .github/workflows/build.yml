@@ -92,7 +92,7 @@ jobs:
       
       ## Command to push docker image to registry/repo
       - name: Push docker image to registry/repo post scanning
-        run |
+        run: |
           docker push ${{ env.env_var }}:lastest,${{ env.env_var }}:${{ steps.versioning.outputs.version }}
           github_token: ${{ secrets.TOKEN }}
 
@@ -103,8 +103,7 @@ jobs:
 
       ## Sign the image with Cosign
       - name: Sign image with COSIGN_PRIVATE_KEY
-        run |
-        ## set following variables
+        run: |
           export COSIGN_PASSWORD={{ secrets.COSIGN_PASSWORD }}
           export TAGS=${{ steps.versioning.outputs.version }}
           ## issue command to sign image
@@ -112,7 +111,7 @@ jobs:
 
       ## verify signature on image with COSIGN_PUBLIC_KEY
       - name: Verify image signature
-        run |
+        run: |
           export COSIGN_PASSWORD={{ secrets.COSIGN_PASSWORD }}
           export TAGS=${{ steps.versioning.outputs.version }}
           cosign verify --key env://COSIGN_PRIVATE_KEY ${TAGS}
