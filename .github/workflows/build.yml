@@ -100,16 +100,6 @@ jobs:
       - name: Push docker image to registry/repo post scanning
         run: |
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.env_var }}:${{ steps.versioning.outputs.version }}
-    
-      ## create a release in github
-      - name: Create github release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          tag_name: ${{ steps.versioning.outputs.version }}
-          release_name: ${{ steps.versioning.outputs.version }}
-          prerelease: true
 
       ## Begin k8s suply chain security configuration by signing docker image digitally with COSIGN. Other tools
       ## can used as well such as Notary Server
@@ -130,5 +120,14 @@ jobs:
           export TAGS=${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.env_var }}:${{ steps.versioning.outputs.version }}
           cosign verify --key env://COSIGN_PUBLIC_KEY ${TAGS}
       
+      ## create a release in github
+      - name: Create github release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          tag_name: ${{ steps.versioning.outputs.version }}
+          release_name: ${{ steps.versioning.outputs.version }}
+          prerelease: true
 
 
