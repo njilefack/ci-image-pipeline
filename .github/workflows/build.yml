@@ -26,9 +26,9 @@ jobs:
     name: docker getting started image build
     runs-on: ubuntu-22.04
     env:
-      env_var: {{ vars.IMG_NAME }}
-      COSIGN_PRIVATE_KEY: {{ secrets.COSIGN_PRIVATE_KEY }}
-      COSIGN_PUBLIC_KEY: {{ secrets.COSIGN_PUBLIC_KEY }}
+      env_var: ${{ vars.IMG_NAME }}
+      COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
     
     steps:
       - name: Checkout code
