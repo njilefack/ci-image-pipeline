@@ -84,22 +84,32 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: ''
-      
-      ## create a release in github
-      - name: Create github release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.token }}
+
+
+      ## authenticate to ghrc
+      - name: authenticate to ghcr
+        uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          tag_name: ${{ steps.versioning.outputs.version }}
-          release_name: ${{ steps.versioning.outputs.version }}
-          prerelease: true
+          image: ${{ env.env_var }}
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
       
       ## Command to push docker image to registry/repo
       - name: Push docker image to registry/repo post scanning
         run: |
           docker push ${{ env.env_var }}:${{ steps.versioning.outputs.version }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+    
+      ## create a release in github
+      - name: Create github release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          tag_name: ${{ steps.versioning.outputs.version }}
+          release_name: ${{ steps.versioning.outputs.version }}
+          prerelease: true
 
       ## Begin k8s suply chain security configuration by signing docker image digitally with COSIGN. Other tools
       ## can used as well such as Notary Server
