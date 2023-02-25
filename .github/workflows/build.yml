@@ -61,7 +61,8 @@ jobs:
         with:
           push: false
           context: .
-          tags: ${{ env.env_var }}:lastest,${{ env.env_var }}:${{ steps.versioning.outputs.version }}
+          tags: ${{ steps.versioning.outputs.version }}/${{ env.env_var }}:lastest
+          #tags: ${{ env.env_var }}:lastest,${{ env.env_var }}:${{ steps.versioning.outputs.version }}
       
       ## log into image registry/repo of choice
       # - name: Log into image repo
