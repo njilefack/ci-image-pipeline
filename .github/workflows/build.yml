@@ -121,7 +121,6 @@ jobs:
         run: |
           export COSIGN_PASSWORD={{ secrets.COSIGN_PASSWORD }}
           export TAGS=${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.env_var }}:${{ steps.versioning.outputs.version }}
-          ## issue command to sign image
           cosign sign --key env://COSIGN_PRIVATE_KEY ${TAGS}
 
       ## verify signature on image with COSIGN_PUBLIC_KEY
