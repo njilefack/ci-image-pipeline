@@ -126,7 +126,7 @@ jobs:
       ## verify signature on image with COSIGN_PUBLIC_KEY
       - name: Verify image signature
         run: |
-          export COSIGN_PASSWORD={{ secrets.COSIGN_PASSWORD }}
+          export COSIGN_PASSWORD=${{ secrets.COSIGN_PASSWORD }}
           export TAGS=${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.env_var }}:${{ steps.versioning.outputs.version }}
           cosign verify --key env://COSIGN_PRIVATE_KEY ${TAGS}
       
