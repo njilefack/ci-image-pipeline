@@ -62,7 +62,8 @@ jobs:
         with:
           push: false
           context: .
-          tags: ${{ env.env_var }}:lastest,${{ env.env_var }}:${{ steps.versioning.outputs.version }}
+          tags: ${{ env.env_var }}:${{ steps.versioning.outputs.version }}
+          #tags: ${{ env.env_var }}:lastest,${{ env.env_var }}:${{ steps.versioning.outputs.version }}
       
       ## log into image registry/repo of choice
       # - name: Log into image repo
@@ -97,7 +98,7 @@ jobs:
       ## Command to push docker image to registry/repo
       - name: Push docker image to registry/repo post scanning
         run: |
-          docker push ${{ env.env_var }}:lastest,${{ env.env_var }}:${{ steps.versioning.outputs.version }}
+          docker push ${{ env.env_var }}:${{ steps.versioning.outputs.version }}
           github_token: ${{ secrets.TOKEN }}
 
       ## Begin k8s suply chain security configuration by signing docker image digitally with COSIGN. Other tools
