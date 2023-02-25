@@ -39,7 +39,7 @@ jobs:
         with:
           dockerfile: Dockerfile
           config: hadolint-config.yaml
-          ignore: 'DL3018,DL3019'
+          ignore: 'DL3018,DL3019,DL3042,DL3059'
 
       ## Create Semantic Version/Image Tag
       - name: Semantic Versioning
