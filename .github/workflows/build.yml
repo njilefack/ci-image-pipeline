@@ -37,7 +37,7 @@ jobs:
         with:
           fetch-depth: 0
     
-    ## sonar
+    ## sonar static code analysis
     - name: SonarQube Scan
        uses: kitabisa/sonarqube-action@v1.2.0
        with:
