@@ -36,6 +36,14 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+    
+    ## sonar
+    - name: SonarQube Scan
+       uses: kitabisa/sonarqube-action@v1.2.0
+       with:
+         host: ${{ secrets.SONARQUBE_HOST }}
+         login: ${{ secrets.SONARQUBE_TOKEN }}
+         projectKey: ${{ secrets.SONAR_PROJECT_KEY }} 
       
       - name: docker file linting
         uses: hadolint/hadolint-action@v3.1.0
